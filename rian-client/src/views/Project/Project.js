@@ -4,7 +4,6 @@ import MaterialTable from 'material-table'
 import axios from 'axios';
 import {useSelector, connect, useDispatch } from 'react-redux';
 
-
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -32,6 +31,10 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import { AUTH_LOGOUT } from '../../store/actions/actionTypes';
+
+
+// CLIENT ORIGIN
+import { CLIENT_ORIGIN } from "../../config"
 
 const StyledMenu = withStyles({
   paper: {
@@ -98,7 +101,7 @@ const Project = ({onLogout}) => {
   // console.log(token)
   axios.defaults.headers.common['Authorization'] = token;
   useEffect(() => {
-    axios.post(`http://localhost:4000/project/fetchProjects`, {_id: userId} )
+    axios.post(`${CLIENT_ORIGIN}/project/fetchProjects`, {_id: userId} )
       .then((response) => {
       
         setData(response.data.data)
@@ -121,7 +124,7 @@ const Project = ({onLogout}) => {
   ]
 
   const onRowAdd = async (newRow) => {
-    await axios.post(`http://localhost:4000/project/createProject`, {...newRow, _id: userId})
+    await axios.post(`${CLIENT_ORIGIN}/project/createProject`, {...newRow, _id: userId})
     .then((response) => {
       // console.log(response.data.data.status)
 
@@ -160,7 +163,7 @@ const Project = ({onLogout}) => {
     const index = oldData._id;
     // console.log(index)
     const updatedRows = [...data]
-    await axios.post(`http://localhost:4000/project/deleteProject`, {_id: index})
+    await axios.post(`${CLIENT_ORIGIN}/project/deleteProject`, {_id: index})
     .then((response) => {
       // console.log(response)
       setTimeout(() => {
@@ -184,7 +187,7 @@ const Project = ({onLogout}) => {
     console.log(updatedRow)
     // console.log(index);
     const updatedRows =[...data]
-    await axios.post(`http://localhost:4000/project/updateProject`, {_id: index, title: updatedRow.title, description: updatedRow.description, deadline:updatedRow.deadline, budget: updatedRow.budget, status: updatedRow.status})
+    await axios.post(`${CLIENT_ORIGIN}/project/updateProject`, {_id: index, title: updatedRow.title, description: updatedRow.description, deadline:updatedRow.deadline, budget: updatedRow.budget, status: updatedRow.status})
     .then((response) => {
       console.log(response)
       setTimeout(() => {
